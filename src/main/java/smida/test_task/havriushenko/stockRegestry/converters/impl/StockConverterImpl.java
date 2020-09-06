@@ -1,9 +1,11 @@
 package smida.test_task.havriushenko.stockRegestry.converters.impl;
 
+import org.springframework.stereotype.Component;
 import smida.test_task.havriushenko.stockRegestry.converters.StockConverter;
 import smida.test_task.havriushenko.stockRegestry.dto.StockDto;
 import smida.test_task.havriushenko.stockRegestry.models.StockModel;
 
+@Component("stockConverter")
 public class StockConverterImpl implements StockConverter {
 
     @Override
@@ -23,7 +25,9 @@ public class StockConverterImpl implements StockConverter {
     @Override
     public StockModel convertDtoToModel(StockDto stock) {
         StockModel model = new StockModel();
-        model.setPk(stock.getPk());
+        if(stock.getPk() != 0){
+            model.setPk(stock.getPk());
+        }
         model.setComment(stock.getComment());
         model.setUSREOU(stock.getUSREOU());
         model.setQuantity(stock.getQuantity());

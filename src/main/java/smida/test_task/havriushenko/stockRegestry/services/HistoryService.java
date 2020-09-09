@@ -4,14 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import smida.test_task.havriushenko.stockRegestry.converters.HistoryConverter;
+import smida.test_task.havriushenko.stockRegestry.dto.HistoryDto;
 import smida.test_task.havriushenko.stockRegestry.models.HistoryModel;
 import smida.test_task.havriushenko.stockRegestry.models.StockModel;
 import smida.test_task.havriushenko.stockRegestry.repositories.HistoryRepository;
 
 import java.time.OffsetDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import static smida.test_task.havriushenko.stockRegestry.utils.Constants.FieldNames.*;
 
@@ -20,6 +24,8 @@ import static smida.test_task.havriushenko.stockRegestry.utils.Constants.FieldNa
 @AllArgsConstructor
 public class HistoryService {
 
+    @Autowired
+    private HistoryConverter historyConverter;
     @Autowired
     private HistoryRepository historyRepository;
 
@@ -55,5 +61,11 @@ public class HistoryService {
             }
         });
         return count.get();
+    }
+
+    public List<HistoryDto> getHistory() {
+        List<HistoryModel> history = historyRepository.findAll();
+
+        return history.stream().map(model -> historyConverter.convertModelToDto(model)).collect(Collectors.toList());
     }
 }

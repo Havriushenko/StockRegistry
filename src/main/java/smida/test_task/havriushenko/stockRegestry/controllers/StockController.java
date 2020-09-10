@@ -55,13 +55,13 @@ public class StockController {
     }
 
     @GetMapping("/{lessThan}/{greaterThan}")
-    public List<StockDto> getStocksByNominalValueLessAndGreaterThan(@PathVariable Double lessThan,
-                                                                    @PathVariable Double greaterThan) {
-        return stockService.getStocksByNominalValueLessAndGreaterThan(lessThan, greaterThan);
+    public List<StockDto> getStocksByNominalValueBetweenValues(@PathVariable Double lessThan,
+                                                               @PathVariable Double greaterThan) {
+        return stockService.getStocksByNominalValueBetweenValues(lessThan, greaterThan);
     }
 
     @GetMapping("by_status")
-    public List<StockDto> getByStatus(@RequestParam String status){
+    public List<StockDto> getByStatus(@RequestParam String status) {
         return stockService.getStocksByStatus(status);
     }
 }

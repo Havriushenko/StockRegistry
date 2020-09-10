@@ -255,11 +255,11 @@ class StockServiceTest {
 
     @Test
     public void getStocksByNominalValueLessAndGreaterThan() {
-        when(stockRepository.findByNominalValueLessThanAndNominalValueGreaterThanOrderByNominalValueAsc(NOMINAL_VALUE_LESS_THAN, NOMINAL_VALUE_GREATER_THAN)).thenReturn(listModels);
+        when(stockRepository.findByNominalValueBetweenOrderByNominalValueAsc(NOMINAL_VALUE_LESS_THAN, NOMINAL_VALUE_GREATER_THAN)).thenReturn(listModels);
         when(stockConverter.convertModelToDto(stockModel)).thenReturn(stockDto);
         when(stockConverter.convertModelToDto(stockModel2)).thenReturn(stockDto2);
 
-        List<StockDto> result = tested.getStocksByNominalValueLessAndGreaterThan(NOMINAL_VALUE_LESS_THAN, NOMINAL_VALUE_GREATER_THAN);
+        List<StockDto> result = tested.getStocksByNominalValueBetweenValues(NOMINAL_VALUE_LESS_THAN, NOMINAL_VALUE_GREATER_THAN);
 
         assertEquals(result, listDtos);
         assertEquals(result.get(1).getPk(), stockDto2.getPk());

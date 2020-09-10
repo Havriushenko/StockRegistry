@@ -19,5 +19,5 @@ public interface StockRepository extends JpaRepository<StockModel, Long> {
 
     List<StockModel> findByReleaseDateOrderByNominalValueAsc(OffsetDateTime releaseDate);
 
-    List<StockModel> findByNominalValueLessThanAndNominalValueGreaterThanOrderByNominalValueAsc(Double lessThan, Double greaterThan);
+    List<StockModel> findByNominalValueBetweenOrderByNominalValueAsc(Double lessThan, Double greaterThan);
 }

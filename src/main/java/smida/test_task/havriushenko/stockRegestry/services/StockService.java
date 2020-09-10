@@ -100,8 +100,8 @@ public class StockService {
         return models.stream().map(model -> stockConverter.convertModelToDto(model)).collect(Collectors.toList());
     }
 
-    public List<StockDto> getStocksByNominalValueLessAndGreaterThan(Double lessThan, Double greaterThan) {
-        List<StockModel> models = stockRepository.findByNominalValueLessThanAndNominalValueGreaterThanOrderByNominalValueAsc(lessThan, greaterThan);
+    public List<StockDto> getStocksByNominalValueBetweenValues(Double lessThan, Double greaterThan) {
+        List<StockModel> models = stockRepository.findByNominalValueBetweenOrderByNominalValueAsc(lessThan, greaterThan);
 
         return models.stream().map(model -> stockConverter.convertModelToDto(model)).collect(Collectors.toList());
     }

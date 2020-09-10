@@ -11,7 +11,6 @@ import smida.test_task.havriushenko.stockRegestry.exceptions.StockNotFoundExcept
 import smida.test_task.havriushenko.stockRegestry.models.StockModel;
 import smida.test_task.havriushenko.stockRegestry.repositories.StockRepository;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,15 +55,15 @@ class StockServiceTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        initStockModel();
-        initStockDto();
+        initStockModels();
+        initStockDtos();
         initListStockModels();
         initListStockDtos();
 
         tested = new StockService(stockConverter, stockRepository, historyService);
     }
 
-    private void initStockModel() {
+    private void initStockModels() {
         stockModel = new StockModel();
         stockModel.setPk(1);
         stockModel.setUSREOU(204565);
@@ -84,7 +83,7 @@ class StockServiceTest {
         stockModel3.setStatus(DELETED_STATUS);
     }
 
-    private void initStockDto() {
+    private void initStockDtos() {
         stockDto = new StockDto();
         stockDto.setPk(1);
         stockDto.setUSREOU(204565);

@@ -1,6 +1,9 @@
 package smida.test_task.havriushenko.stockRegestry.repositories;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import smida.test_task.havriushenko.stockRegestry.dto.StockDto;
 import smida.test_task.havriushenko.stockRegestry.models.StockModel;
 
 import java.time.OffsetDateTime;
@@ -20,4 +23,6 @@ public interface StockRepository extends JpaRepository<StockModel, Long> {
     List<StockModel> findByReleaseDateOrderByNominalValueAsc(OffsetDateTime releaseDate);
 
     List<StockModel> findByNominalValueBetweenOrderByNominalValueAsc(Double lessThan, Double greaterThan);
+
+    List<StockModel> findAll(Specification<StockModel> spec);
 }

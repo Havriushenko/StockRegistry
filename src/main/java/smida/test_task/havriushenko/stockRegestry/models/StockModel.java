@@ -17,7 +17,6 @@ public class StockModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long pk;
-
     @Column(length = 2000)
     private String comment;
     @Column(name = "usreou")

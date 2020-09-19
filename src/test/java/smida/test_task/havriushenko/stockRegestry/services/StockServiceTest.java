@@ -125,7 +125,7 @@ class StockServiceTest {
         } catch (StockExistException ex) {
             String result = ex.getMessage();
 
-            assertEquals(result, STOCK_WITH + stockDto.getUSREOU() + USREOU_WAS_EXIST);
+            assertEquals(result, String.format(STOCK_WITH_FIELD_WAS_EXIST, stockDto.getUSREOU(), USREOU_FIELD_NAME));
         }
     }
 
@@ -148,7 +148,7 @@ class StockServiceTest {
         } catch (StockNotFoundException ex) {
             String result = ex.getMessage();
 
-            assertEquals(result, STOCK_WAS_NOT_FOUND_WITH + stockDto.getPk() + SPACE + PK_FIELD_NAME + "!");
+            assertEquals(result, String.format(STOCK_WAS_NOT_FOUND, stockDto.getUSREOU(), USREOU_FIELD_NAME));
         }
     }
 
@@ -204,7 +204,7 @@ class StockServiceTest {
         } catch (StockNotFoundException ex) {
             String result = ex.getMessage();
 
-            assertEquals(result, STOCK_WAS_NOT_FOUND_WITH + stockModel2.getPk() + SPACE + PK_FIELD_NAME + "!");
+            assertEquals(result, String.format(STOCK_WAS_NOT_FOUND, stockModel2.getPk(), PK_FIELD_NAME));
         }
     }
 
@@ -228,7 +228,7 @@ class StockServiceTest {
         } catch (StockNotFoundException ex) {
             String result = ex.getMessage();
 
-            assertEquals(result, STOCK_WAS_NOT_FOUND_WITH + stockModel2.getUSREOU() + SPACE + USREOU_FIELD_NAME + "!");
+            assertEquals(result, String.format(STOCK_WAS_NOT_FOUND, stockModel2.getUSREOU(), USREOU_FIELD_NAME));
         }
     }
 
@@ -297,7 +297,7 @@ class StockServiceTest {
         } catch (IllegalArgumentException ex) {
             String result = ex.getMessage();
 
-            assertEquals(result, WRITE_WRONG_STATUS + WRONG_STATUS + STATUS_COULD_BE_ACTIVE_OR_DELETED);
+            assertEquals(result, String.format(WRITE_WRONG_STATUS, WRONG_STATUS));
         }
     }
 }

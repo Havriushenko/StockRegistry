@@ -36,7 +36,7 @@ public class StockService {
     private HistoryService historyService;
 
     public void registryStock(StockDto stock) {
-        isStockExist(stock);
+        isStockExist(stock.getUSREOU());
         StockModel model = stockConverter.convertDtoToModel(stock);
         model.setStatus(ACTIVE_STATUS);
         model.setReleaseDate(OffsetDateTime.now());
@@ -44,25 +44,19 @@ public class StockService {
         stockRepository.save(model);
     }
 
-    private void isStockExist(StockDto stock) {
-        if (stockRepository.findByStatusAndUSREOU(ACTIVE_STATUS, stock.getUSREOU()).isPresent()) {
-            throw new StockExistException(STOCK_WITH + stock.getUSREOU() + USREOU_WAS_EXIST);
+    private void isStockExist(Long USREOU) {
+        if (stockRepository.findByStatusAndUSREOU(ACTIVE_STATUS, USREOU).isPresent()) {
+            throw new StockExistException(String.format(STOCK_WITH_FIELD_WAS_EXIST, USREOU, USREOU_FIELD_NAME));
         }
     }
 
     public void editStock(StockDto stock) {
-        Optional<StockModel> optionalOldModel = stockRepository.findByStatusAndUSREOU(ACTIVE_STATUS, stock.getUSREOU());
-        stockIsNotNull(stock.getPk(), PK_FIELD_NAME, optionalOldModel);
+        StockModel model = stockRepository.findByStatusAndUSREOU(ACTIVE_STATUS, stock.getUSREOU())
+                .orElseThrow(() -> new StockNotFoundException(String.format(STOCK_WAS_NOT_FOUND, stock.getUSREOU(), USREOU_FIELD_NAME)));
         StockModel updateStock = stockConverter.convertDtoToModel(stock);
-        long count = historyService.comparisonStock(updateStock, optionalOldModel.get());
+        long count = historyService.comparisonStock(updateStock, model);
         if (count != 0) {
             stockRepository.save(updateStock);
-        }
-    }
-
-    private void stockIsNotNull(Object value, String fieldName, Optional<StockModel> optionalModel) {
-        if (!optionalModel.isPresent()) {
-            throw new StockNotFoundException(STOCK_WAS_NOT_FOUND_WITH + value + SPACE + fieldName + "!");
         }
     }
 
@@ -73,23 +67,22 @@ public class StockService {
     }
 
     public StockDto getStockByPk(Long pk) {
-        Optional<StockModel> optionalModel = stockRepository.findByPkAndStatus(pk, ACTIVE_STATUS);
-        stockIsNotNull(pk, PK_FIELD_NAME, optionalModel);
+        StockModel model = stockRepository.findByPkAndStatus(pk, ACTIVE_STATUS)
+                .orElseThrow(() -> new StockNotFoundException(String.format(STOCK_WAS_NOT_FOUND, pk, PK_FIELD_NAME)));
 
-        return stockConverter.convertModelToDto(optionalModel.get());
+        return stockConverter.convertModelToDto(model);
     }
 
     public StockDto getStockByUSREOU(Long USREOU) {
-        Optional<StockModel> optionalModel = stockRepository.findByStatusAndUSREOU(ACTIVE_STATUS, USREOU);
-        stockIsNotNull(USREOU, USREOU_FIELD_NAME, optionalModel);
+        StockModel model = stockRepository.findByStatusAndUSREOU(ACTIVE_STATUS, USREOU)
+                .orElseThrow(() -> new StockNotFoundException(String.format(STOCK_WAS_NOT_FOUND, USREOU, USREOU_FIELD_NAME)));
 
-        return stockConverter.convertModelToDto(optionalModel.get());
+        return stockConverter.convertModelToDto(model);
     }
 
     public void deleteByPk(Long pk) {
-        Optional<StockModel> optionalModel = stockRepository.findByPkAndStatus(pk, ACTIVE_STATUS);
-        stockIsNotNull(pk, PK_FIELD_NAME, optionalModel);
-        StockModel model = optionalModel.get();
+        StockModel model = stockRepository.findByPkAndStatus(pk, ACTIVE_STATUS)
+                .orElseThrow(() -> new StockNotFoundException(String.format(STOCK_WAS_NOT_FOUND, pk, PK_FIELD_NAME)));
         model.setStatus(DELETED_STATUS);
         stockRepository.save(model);
     }
@@ -112,7 +105,7 @@ public class StockService {
 
             return models.stream().map(model -> stockConverter.convertModelToDto(model)).collect(Collectors.toList());
         }
-        throw new IllegalArgumentException(WRITE_WRONG_STATUS + status + STATUS_COULD_BE_ACTIVE_OR_DELETED);
+        throw new IllegalArgumentException(String.format(WRITE_WRONG_STATUS, status));
     }
 
     private boolean isStatus(String status) {

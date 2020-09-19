@@ -20,15 +20,14 @@ public class StockDto {
     private OffsetDateTime releaseDate;
     private String status;
 
-    public StockDto(StockDto model) {
-        this.pk = model.getPk();
-        this.comment = model.getComment();
-        this.USREOU = model.getUSREOU();
-        this.quantity = model.getQuantity();
-        this.totalNominalValue = model.getTotalNominalValue();
-        this.nominalValue = model.getNominalValue();
-        this.nominalValue = model.getNominalValue();
-        this.status = model.getStatus();
+    public StockDto(StockDto stock) {
+        this.pk = stock.getPk();
+        this.comment = stock.getComment();
+        this.USREOU = stock.getUSREOU();
+        this.quantity = stock.getQuantity();
+        this.totalNominalValue = stock.getTotalNominalValue();
+        this.nominalValue = stock.getNominalValue();
+        this.nominalValue = stock.getNominalValue();
+        this.status = stock.getStatus();
     }
-
 }

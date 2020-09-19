@@ -39,14 +39,12 @@ public class StockController {
         return stockService.getAllStocks();
     }
 
-    @GetMapping("/by_pk")
-    public StockDto getStockByPk(@RequestParam Long pk) {
-        return stockService.getStockByPk(pk);
-    }
 
-    @GetMapping("/by_usreou")
-    public StockDto getStockByUSREOU(@RequestParam Long USREOU) {
-        return stockService.getStockByUSREOU(USREOU);
+    @GetMapping("/filter")
+    public List<StockDto> getFilteringStocks(@RequestParam Long pk,
+                                             @RequestParam Long USREOU,
+                                             @RequestParam String status) {
+        return stockService.getFilteringStocks(pk, USREOU, status);
     }
 
     @GetMapping("/by_release_date")
@@ -60,8 +58,4 @@ public class StockController {
         return stockService.getStocksByNominalValueBetweenValues(lessThan, greaterThan);
     }
 
-    @GetMapping("by_status")
-    public List<StockDto> getByStatus(@RequestParam String status) {
-        return stockService.getStocksByStatus(status);
-    }
 }

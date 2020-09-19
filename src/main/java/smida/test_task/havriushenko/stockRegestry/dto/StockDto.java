@@ -14,7 +14,7 @@ public class StockDto {
     private long pk;
     private String comment;
     private long USREOU;            //Unified State Register of Enterprises and Organizations of Ukraine
-    private double quantity;
+    private long quantity;
     private double totalNominalValue;
     private double nominalValue;
     private OffsetDateTime releaseDate;

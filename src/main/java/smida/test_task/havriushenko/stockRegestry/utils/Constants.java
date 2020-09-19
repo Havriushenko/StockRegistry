@@ -16,6 +16,7 @@ public interface Constants {
     interface FieldNames {
         String PK_FIELD_NAME = "pk";
         String USREOU_FIELD_NAME = "USREOU";
+        String STATUS_FIELD_NAME = "status";
         String COMMENT_FIELD_NAME = "comment";
         String TOTAL_NOMINAL_VALUE_FIELD_NAME = "totalNominalValue";
         String NOMINAL_VALUE_FIELD_NAME = "nominalValue";

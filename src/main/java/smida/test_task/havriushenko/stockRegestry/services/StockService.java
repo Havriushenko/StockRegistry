@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import smida.test_task.havriushenko.stockRegestry.converters.StockConverter;
 import smida.test_task.havriushenko.stockRegestry.dto.StockDto;
@@ -11,6 +14,9 @@ import smida.test_task.havriushenko.stockRegestry.exceptions.StockExistException
 import smida.test_task.havriushenko.stockRegestry.exceptions.StockNotFoundException;
 import smida.test_task.havriushenko.stockRegestry.models.StockModel;
 import smida.test_task.havriushenko.stockRegestry.repositories.StockRepository;
+import smida.test_task.havriushenko.stockRegestry.specification.stock.StockWithPk;
+import smida.test_task.havriushenko.stockRegestry.specification.stock.StockWithStatus;
+import smida.test_task.havriushenko.stockRegestry.specification.stock.StockWithUSREOU;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -110,5 +116,16 @@ public class StockService {
 
     private boolean isStatus(String status) {
         return StringUtils.isNotEmpty(status) && (ACTIVE_STATUS.equals(status) || DELETED_STATUS.equals(status));
+    }
+
+    public List<StockDto> getFilteringStocks(Long pk, Long USREOU, String status) {
+        Specification<StockModel> spec = Specification.where(new StockWithPk(pk))
+                .and(new StockWithUSREOU(USREOU))
+                .and(new StockWithStatus(status));
+
+        return stockRepository.findAll(spec)
+                .stream()
+                .map(model -> stockConverter.convertModelToDto(model))
+                .collect(Collectors.toList());
     }
 }

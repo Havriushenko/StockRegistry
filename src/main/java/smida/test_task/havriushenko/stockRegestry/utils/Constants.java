@@ -8,16 +8,9 @@ public interface Constants {
     }
 
     interface ExceptionMessages {
-
-        String SPACE = " ";
-
-        String STOCK_WITH = "Stock with ";
-        String USREOU_WAS_EXIST = " USREOU was exist!";
-
-        String STOCK_WAS_NOT_FOUND_WITH = "Stock was not found with ";
-
-        String WRITE_WRONG_STATUS = "Write wrong status: '";
-        String STATUS_COULD_BE_ACTIVE_OR_DELETED = "' ! Status could be active or deleted!";
+        String STOCK_WITH_FIELD_WAS_EXIST = "Stock with {'%s' = '%s'} was exist!";
+        String STOCK_WAS_NOT_FOUND = "Stock was not found with {'%s' = '%s'}!";
+        String WRITE_WRONG_STATUS = "Write wrong status: '{'%s'}' ! Status could be active or deleted!";
     }
 
     interface FieldNames {

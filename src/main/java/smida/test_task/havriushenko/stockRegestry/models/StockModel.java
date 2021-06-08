@@ -22,7 +22,7 @@ public class StockModel {
     @Column(name = "usreou")
     private long USREOU;            //Unified State Register of Enterprises and Organizations of Ukraine
     @Column
-    private long quantity;
+    private double quantity;
     @Column(name = "total_nominal_value")
     private double totalNominalValue;
     @Column(name = "nominal_value")
